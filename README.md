@@ -1,5 +1,7 @@
 ## Hands-on Lab
 
+## PLEASE CLONE IT IN YOUR HOME DIRECTORY ** ~/ **.
+
 1. Scalability Test.
    * Set TRIES to 100,000 and measure the performance with different numbers of processes multiple times. Then, use Google Sheets to create a Scalability chart.
    ```bash
