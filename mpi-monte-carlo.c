@@ -1,80 +1,57 @@
-/**                  _ _              _____ ___
- *  _ __   _____   _(_) | ____      _|___ // _ \
- * | '_ \ / _ \ \ / / | |/ /\ \ /\ / / |_ \ (_) |
- * | | | |  __/\ V /| |   <  \ V  V / ___) \__, |
- * |_| |_|\___| \_/ |_|_|\_\  \_/\_/ |____/  /_/
- **/
-// @上一屆教SLURM的學長
-
-#include <assert.h>
-#include <errno.h>
-#include <float.h>
-#include <inttypes.h>
-#include <limits.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
-#include <unistd.h>
-
 #include <mpi.h>
+#include <math.h>
 
-#ifdef M_PIl // Intel compiler doesn't define `M_PIl` macro.
-#define PI M_PIl
-#else
-#define PI 3.141592653589793238462643383279502884L
-#endif // M_PIl
+#define PI 3.14159265358979323846
 
 typedef unsigned long long ull;
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     int rank, size;
+    ull n, local_count = 0, global_count;
 
     MPI_Init(&argc, &argv);
-
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    MPI_Barrier(MPI_COMM_WORLD);
-    double tik = MPI_Wtime();
-
-    srand(time(NULL));
-
-    // Ensure only one additional argument is provided
     if (argc != 2) {
         if (rank == 0) {
-            fprintf(stderr, "You can only input one parameter!\n");
+            fprintf(stderr, "Usage: %s <number_of_points>\n", argv[0]);
         }
         MPI_Finalize();
         return 1;
     }
 
-    const ull n = strtoull(1[argv], NULL, 10);
+    n = strtoull(argv[1], NULL, 10);
 
-    ull cnt = 0;
-    ull i;
-    for (i = rank; i < n; i += size)
-    {
-        long double x = 1.l * rand() / RAND_MAX, y = 1.l * rand() / RAND_MAX;
-        if (x * x + y * y < 1)
-            ++cnt;
+    // Start the timer
+    double start_time = MPI_Wtime();
+
+    unsigned int seed = time(NULL) + rank;
+    for (ull i = rank; i < n; i += size) {
+        double x = (double)rand_r(&seed) / RAND_MAX;
+        double y = (double)rand_r(&seed) / RAND_MAX;
+        if (x * x + y * y <= 1.0) {
+            local_count++;
+        }
     }
 
-    ull sum = 0;
-    MPI_Reduce(&cnt, &sum, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+    MPI_Reduce(&local_count, &global_count, 1, MPI_UNSIGNED_LONG_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
 
-    MPI_Barrier(MPI_COMM_WORLD);
-    double tok = MPI_Wtime();
+    // Stop the timer
+    double end_time = MPI_Wtime();
 
-    if (!rank) // rank == 0
-    {
-        long double pi = 4.l * sum / n;
-        printf("pi\t= %Lf\nAbs err\t= %Lf\n", pi, fabsl(pi - PI));
-        fprintf(stderr, "Wall time: %f\n", tok - tik);
+    double local_execution_time = end_time - start_time;
+    double max_execution_time;
+    MPI_Reduce(&local_execution_time, &max_execution_time, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+
+    if (rank == 0) {
+        double pi = 4.0 * global_count / n;
+        printf("Estimated Pi = %f\n", pi);
+        printf("Absolute Error = %f\n", fabs(pi - PI));
+        printf("Max Execution Time = %f seconds\n", max_execution_time);
     }
 
     MPI_Finalize();
