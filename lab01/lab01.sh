@@ -14,7 +14,7 @@ module purge
 module load gcc/9.3.0
 module load mpi/openmpi-4.0.5/gcc930
 
-cd ./sc25-test
+cd ./SC25-WinterCamp-PBS
 
 make clean && make
 
