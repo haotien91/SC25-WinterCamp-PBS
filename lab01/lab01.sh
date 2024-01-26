@@ -18,4 +18,4 @@ make clean && make
 
 echo "Calculat pi by Monte Carlo method with 1,000,000,000 tries!!"
 
-mpirun --mca btl ^openib -np $NUM_OF_PROCS ./mpi-monte-carlo.run $TRIES
+mpirun -np $NUM_OF_PROCS --mca btl ^openib ./mpi-monte-carlo.run $TRIES
