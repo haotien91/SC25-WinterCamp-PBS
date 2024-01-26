@@ -1,13 +1,11 @@
 #!/bin/bash
-#PBS -N pi-mt-Intel-OMPI
-#PBS -P ACD110018
-#PBS -q cf160
-#PBS -o out.log
-#PBS -e err.log
-#PBS -l mpiprocs=1000
+#PBS -N pi-OMPI-abs-err
+#PBS -P ACD112218
+#PBS -q ct160
+#PBS -l mpiprocs=20
 
-# Please set NUM_OF_PROCS to 1000 and experiment with various values for TRIES.
-NUM_OF_PROCS=1000
+# Please set NUM_OF_PROCS to 20 and experiment with various values for TRIES.
+NUM_OF_PROCS=20
 TRIES=$(TODO)
 
 module purge
@@ -18,6 +16,6 @@ cd ./SC25-WinterCamp-PBS
 
 make clean && make
 
-echo "Calculat pi by Monte Carlo method with 100000 tries!!"
+echo "Calculat pi by Monte Carlo method with $TRIES tries!!"
 
 time mpirun --mca btl ^openib -np $NUM_OF_PROCS ./mpi-monte-carlo.run $TRIES
