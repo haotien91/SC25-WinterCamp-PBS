@@ -4,7 +4,7 @@
 ### All you need is modifying the $(TODO).
 
 1. Scalability Test.
-   * Set TRIES to 100,000 and measure the performance with different numbers of processes multiple times. Then, use Google Sheets to create a Scalability chart. You will find the output of execution time in .out file.
+   * Set TRIES to 1,000,000,000 and measure the performance with different numbers of processes multiple times. Then, use Google Sheets to create a Scalability chart. You will find the output of execution time in .o[JobID] file.
    ```bash
     #!/bin/bash
     #PBS -N pi-OMPI-strong-scale
@@ -31,7 +31,7 @@
 
 
 2. Absolute Error Test.
-   * Keep the number of processes constant at 1000, and vary the number of TRIES. Then, create a graph to show how the error changes with different TRIES values. You will find the output of abs error in .out file.
+   * Keep the number of processes constant at 20, and vary the number of TRIES. Then, create a chart to show how the error changes with different TRIES values. You will find the output of abs error in .o[JobID] file.
    ```bash
     #!/bin/bash
     #PBS -N pi-OMPI-abs-err
