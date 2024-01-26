@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N pi-OMPI-strong-scale
 #PBS -P ACD112218
-#PBS -q ct160
-#PBS -l mpiprocs=$(TODO)
+#PBS -q dc20240001
+#PBS -l nodes=1:ppn=$(TODO)
 
 # Please set TRIES to 1,000,000,000 and experiment with different numbers of processes (NUM_OF_PROCS).
 NUM_OF_PROCS=$(TODO)
