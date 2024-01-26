@@ -3,8 +3,8 @@
 # Compiler
 CC=mpicc
 
-# Compiler flags
-CFLAGS=-Wall
+# Compiler flags for Optimization
+CFLAGS=-Wall -funroll-loops -O3 -flto -march=native
 
 # Target executable name
 TARGET=mpi-monte-carlo.run
