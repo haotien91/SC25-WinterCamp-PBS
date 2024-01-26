@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N pi-OMPI
+#PBS -N pi-OMPI-strong-scale
 #PBS -P ACD112218
 #PBS -q ct160
 #PBS -l mpiprocs=$(TODO)
