@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N pi-OMPI-abs-err
 #PBS -P ACD112218
-#PBS -q ct160
-#PBS -l mpiprocs=20
+#PBS -q dc20240001
+#PBS -l nodes=1:ppn=20
 
 # Please set NUM_OF_PROCS to 20 and experiment with various values for TRIES.
 NUM_OF_PROCS=20
@@ -18,4 +18,4 @@ make clean && make
 
 echo "Calculat pi by Monte Carlo method with $TRIES tries!!"
 
-time mpirun --mca btl ^openib -np $NUM_OF_PROCS ./mpi-monte-carlo.run $TRIES
+mpirun -np $NUM_OF_PROCS --mca btl ^openib ./mpi-monte-carlo.run $TRIES
