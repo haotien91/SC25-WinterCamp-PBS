@@ -26,7 +26,7 @@
     
     echo "Calculat pi by Monte Carlo method with 1,000,000,000 tries!!"
     
-    mpirun --mca btl ^openib -np $NUM_OF_PROCS ./mpi-monte-carlo.run $TRIES
+    mpirun -np $NUM_OF_PROCS --mca btl_openib_allow_ib=1 ./mpi-monte-carlo.run $TRIES
    ```
 
 
@@ -53,5 +53,5 @@
     
     echo "Calculat pi by Monte Carlo method with $TRIES tries!!"
     
-    time mpirun --mca btl ^openib -np $NUM_OF_PROCS ./mpi-monte-carlo.run $TRIES
+    time mpirun -np $NUM_OF_PROCS --mca btl_openib_allow_ib=1 ./mpi-monte-carlo.run $TRIES
    ```
