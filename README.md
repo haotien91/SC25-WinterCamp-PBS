@@ -10,7 +10,7 @@
     #PBS -N pi-OMPI-strong-scale
     #PBS -P ACD112218
     #PBS -q ct160
-    #PBS -l mpiprocs=$(TODO)
+    #PBS -l nodes=1:ppn=$(TODO)
     
     # Please set TRIES to 1,000,000,000 and experiment with different numbers of processes (NUM_OF_PROCS).
     NUM_OF_PROCS=$(TODO)
@@ -26,7 +26,7 @@
     
     echo "Calculat pi by Monte Carlo method with 1,000,000,000 tries!!"
     
-    mpirun -np $NUM_OF_PROCS --mca btl_openib_allow_ib=1 ./mpi-monte-carlo.run $TRIES
+    mpirun -np $NUM_OF_PROCS --mca btl_openib_allow_ib 1 ./mpi-monte-carlo.run $TRIES
    ```
 
 
@@ -37,7 +37,7 @@
     #PBS -N pi-OMPI-abs-err
     #PBS -P ACD112218
     #PBS -q ct160
-    #PBS -l mpiprocs=20
+    #PBS -l nodes=1:ppn=20
     
     # Please set NUM_OF_PROCS to 20 and experiment with various values for TRIES.
     NUM_OF_PROCS=20
@@ -53,5 +53,5 @@
     
     echo "Calculat pi by Monte Carlo method with $TRIES tries!!"
     
-    time mpirun -np $NUM_OF_PROCS --mca btl_openib_allow_ib=1 ./mpi-monte-carlo.run $TRIES
+    time mpirun -np $NUM_OF_PROCS --mca btl_openib_allow_ib 1 ./mpi-monte-carlo.run $TRIES
    ```
