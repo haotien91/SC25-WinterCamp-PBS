@@ -12,10 +12,10 @@ module purge
 module load gcc/9.3.0
 module load mpi/openmpi-4.0.5/gcc930
 
-cd ./SC25-WinterCamp-PBS
+cd ~/SC25-WinterCamp-PBS
 
 make clean && make
 
 echo "Calculat pi by Monte Carlo method with $TRIES tries!!"
 
-mpirun -np $NUM_OF_PROCS --mca btl_openib_allow_ib=1  ./mpi-monte-carlo.run $TRIES
+mpirun --mca btl ^openib -np $NUM_OF_PROCS ./mpi-monte-carlo.run $TRIES
